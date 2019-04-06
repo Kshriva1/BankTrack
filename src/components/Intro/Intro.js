@@ -1,8 +1,8 @@
 import React from 'react';
 import './Intro.css';
 
-const Intro = () => {
-
+const Intro = ({ Route }) => {
+   if(Route === 'user') {
    return (
 
      <div>
@@ -12,7 +12,20 @@ const Intro = () => {
      </div>
 
    	)   
+  } else {
 
+    return (
+
+     <div>
+     <p className='f3'>
+     {'WELCOME TO BANKTRACK! PLEASE ENTER YOUR BANK DETAILS FOR USERS TO FIND YOU!'}
+     </p>
+     </div>
+
+   	)   
+ 
+
+  }
 
 }
 

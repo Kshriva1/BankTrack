@@ -1,6 +1,7 @@
 import React from 'react';
 
-const ForBanks = () => {
+
+const Geocoding = () => {
 
 	
 }

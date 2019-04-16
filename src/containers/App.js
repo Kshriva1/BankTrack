@@ -46,7 +46,7 @@ class App extends Component {
   onButtonSubmit = () => {
    
     googleMapsClient.geocode({
-     address: '1600 Amphitheatre Parkway, Mountain View, CA'
+     address: '4400 Vestal Pkwy E, Binghamton, NY 13902'
       }, function(err, response) {
       if(!err) {
        getCoordinates(response);

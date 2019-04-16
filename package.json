@@ -5,9 +5,12 @@
   "dependencies": {
     "@google/maps": "^0.5.5",
     "google-geocoder": "^0.2.1",
+    "google-maps-react": "^2.0.2",
+    "leaflet": "^1.4.0",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
     "react-geocode": "^0.1.2",
+    "react-leaflet": "^2.2.1",
     "react-particles-js": "^2.5.1",
     "react-scripts": "2.1.8",
     "sketch-js": "^1.1.3",

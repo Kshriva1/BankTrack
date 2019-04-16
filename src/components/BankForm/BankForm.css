@@ -11,4 +11,15 @@ background-size:16px 16px;
 font: 50 20px 'Bitter';
 }
 
+@import url(http://fonts.googleapis.com/css?family=Bitter:400,700);
+
+p {
+	margin: 50px auto;
+	text-align: center;
+	text-shadow: -1px -1px 0px rgba(255,255,255,0.3), 1px 1px 0px rgba(0,0,0,0.8);
+	color: #00FF;
+	opacity: 0.4;
+	font: 700 80px 'Bitter';
+}
+
 

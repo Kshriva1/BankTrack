@@ -7,7 +7,7 @@ import Particles from 'react-particles-js';
 import GoogleMapsClient from '@google/maps'
 
 let googleMapsClient = GoogleMapsClient.createClient({
-  key: 'AIzaSyBUyYM0IbNfZTWKhz9VPqdsAegsJq00Z8E'
+  key: ''
 });
 
 

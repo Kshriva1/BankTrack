@@ -4,11 +4,9 @@ import Navigation from '../components/Navigation/Navigation';
 import Intro from '../components/Intro/Intro';
 import BankForm from '../components/BankForm/BankForm';
 import Particles from 'react-particles-js';
-import GoogleMapsClient from '@google/maps'
+//import GoogleMapsClient from '@google/maps'
 
-let googleMapsClient = GoogleMapsClient.createClient({
-  key: ''
-});
+
 
 
 const particleOptions = { 
@@ -27,10 +25,14 @@ class App extends Component {
   constructor() {
     super();
     this.state= {
-      route : 'user',
-      lat : 0.00,
-      lng : 0.00
+      route : 'user'
     }
+  }
+
+  componentDidMount() {
+    fetch('http://localhost:3001/')
+    .then(res => res.json())
+    .then(console.log)
   }
 
   onRouteChange = (route) => {
@@ -43,10 +45,10 @@ class App extends Component {
 
   
 
-  onButtonSubmit = () => {
+  /*onButtonSubmit = () => {
    
     googleMapsClient.geocode({
-     address: '4400 Vestal Pkwy E, Binghamton, NY 13902'
+     address: '9 Seminary Avenue, Binghamton, New York 13905'
       }, function(err, response) {
       if(!err) {
        getCoordinates(response);
@@ -59,11 +61,12 @@ class App extends Component {
     const getCoordinates = (response) => {
       this.setState({
         lat : response.json.results[0].geometry.location.lat,
-        lng : response.json.results[0].geometry.location.lng 
+        lng : response.json.results[0].geometry.location.lng,
+
       })
    }
     
-  }
+  }*/
     
   render() {
     return (

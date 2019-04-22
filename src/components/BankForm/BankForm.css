@@ -22,4 +22,14 @@ p {
 	font: 700 80px 'Bitter';
 }
 
+.map {
+  height: 300px;
+}
+
+@media screen and (min-width: 1024px){
+    .map {
+        height: 500px;
+    }
+}
+
 

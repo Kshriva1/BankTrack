@@ -20,6 +20,15 @@ class BankForm extends React.Component {
       showingInfoWindow: false,  
       activeMarker: {},          
       selectedPlace: {},
+      bankNameChange: '',
+      bankBranchChange: '',
+      registerBankNameChange: '',
+      registerBankAddressChange: '',
+      registerBankBranchChange: '',
+      registerOpeningHoursChange: '',
+      registerPhoneNumberChange: '',
+      registerBankCodeChange: '',
+      message: "Enter the information to register the Bank",    
       lat : 0.00,
       lng : 0.00
     }
@@ -56,9 +65,63 @@ class BankForm extends React.Component {
       })
     }
 
+    onRegisterBankNameChange = (event) => {
+
+      this.setState({
+        registerBankNameChange : event.target.value
+      })
+    }
+
+    onRegisterBankAddressChange = (event) => {
+
+      this.setState({
+        registerBankAddressChange: event.target.value
+      })
+    }
+
+    onRegisterBankBranchChange = (event) => {
+
+      this.setState({
+        registerBankBranchChange : event.target.value
+      })
+    }
+
+    onRegisterPhoneNumberChange = (event) => {
+
+      this.setState({
+        registerPhoneNumberChange: event.target.value
+      })
+    }
+
+    onRegisterOpeningHoursChange = (event) => {
+
+      this.setState({
+        registerOpeningHoursChange : event.target.value
+      })
+    }
+
+    onRegisterBankCodeChange = (event) => {
+
+      this.setState({
+        registerBankCodeChange : event.target.value
+      })
+    }
+
     onButtonSubmit = () => {
+     fetch('http://localhost:3001/map_display', {
+      method: 'post',
+      headers: {'Content-Type' : 'application/json'},
+      body: JSON.stringify({
+        bank_name: this.state.bankNameChange,
+        bank_branch: this.state.bankBranchChange
+      })
+     })
+     .then(response => response.json())
+     .then(data => {
+           if(data) {
+     
     googleMapsClient.geocode({
-     address: '9 Seminary Avenue, Binghamton, New York 13905'
+     address: data
       }, function(err, response) {
       if(!err) {
        getCoordinates(response);
@@ -73,11 +136,40 @@ class BankForm extends React.Component {
         lng : response.json.results[0].geometry.location.lng   
       })
    }
+
+ }
+ else {
+  console.log("data not obtained")
+ }
+})
     
   }
 
 
-  
+  onRegisterSubmit = () => {
+    fetch('http://localhost:3001/bank_register', {
+      method: 'post',
+      headers: {'Content-Type' : 'application/json'},
+      body: JSON.stringify({
+        bank_name: this.state.registerBankNameChange,
+        bank_address: this.state.registerBankAddressChange,
+        bank_branch: this.state.registerBankBranchChange,
+        opening_hours: this.state.registerOpeningHoursChange,
+        phone_number: this.state.registerPhoneNumberChange,
+        bank_code: this.state.registerBankCodeChange
+      })
+     })
+     .then(response => response.json())
+     .then(bankData => {
+      if(bankData) {
+             
+          this.setState({message: "The Bank has been successfully registered"})   
+      }
+
+  })
+ }
+
+
   render() {
   if(this.props.Route === 'user') {
   return(
@@ -100,7 +192,7 @@ class BankForm extends React.Component {
       >
         <Marker
           onClick={this.onMarkerClick}
-          name={'Binghamton University'}
+          name={this.state.bankNameChange}
         />
         <InfoWindow
           marker={this.state.activeMarker}
@@ -130,15 +222,15 @@ class BankForm extends React.Component {
        <div>
        <div className='shadow-5 br3 pa4 form center w-60 mb3'>
 
-           <div className='center'><b className='ph2 dark-green pr1 ma2'>Bank Name</b><input className='f4 pa2 w-25 pv2 mv1 ml3' input='text' /></div>
-           <div className='pv2'><b className='ph2 dark-green pr1 ma2 '>Bank Address</b><input className='f4 pa2 w-25 pv2 mt3' input='text' /></div>
-           <div className='center pv2'><b className='ph2 dark-green pr1 ma2'>Bank Branch</b><input className='f4 pa2 w-25 pv2 mt3 ml2' input='text' /></div>
-           <div className='center pv2'><b className='ph2 dark-green pr1'>Opening hours</b><input className='f4 pa2 w-25 pv2 mt3 ml2' input='text' /></div>
-           <div className='center pv2'><b className='ph2 dark-green pr1'>Phone Number</b><input className='f4 pa2 w-25 pv2 mt3 ml2' input='tel' /></div>
-           <div className='center pv2'><b className='ph2 dark-green pr1 ml2'>Bank Code</b><input className='f4 pa2 w-25 pv2 mt3 ml4' input='number' /></div>
-           <div><button className='pa3 f4 w-30 link grow ph3 pv2 white dib bg-green mt3'>Submit</button></div>
-         
+           <div className='center'><b className='ph2 dark-green pr1 ma2'>Bank Name</b><input className='f4 pa2 w-25 pv2 mv1 ml3' input='text' onChange={this.onRegisterBankNameChange} /></div>
+           <div className='pv2'><b className='ph2 dark-green pr1 ma2 '>Bank Address</b><input className='f4 pa2 w-25 pv2 mt3' input='text' onChange={this.onRegisterBankAddressChange}/></div>
+           <div className='center pv2'><b className='ph2 dark-green pr1 ma2'>Bank Branch</b><input className='f4 pa2 w-25 pv2 mt3 ml2' input='text' onChange={this.onRegisterBankBranchChange}/></div>
+           <div className='center pv2'><b className='ph2 dark-green pr1'>Opening hours</b><input className='f4 pa2 w-25 pv2 mt3 ml2' input='text' onChange={this.onRegisterOpeningHoursChange}/></div>
+           <div className='center pv2'><b className='ph2 dark-green pr1'>Phone Number</b><input className='f4 pa2 w-25 pv2 mt3 ml2' input='tel' onChange={this.onRegisterPhoneNumberChange}/></div>
+           <div className='center pv2'><b className='ph2 dark-green pr1 ml2'>Bank Code</b><input className='f4 pa2 w-25 pv2 mt3 ml4' input='number' onChange={this.onRegisterBankCodeChange}/></div>
+           <div><button className='pa3 f4 w-30 link grow ph3 pv2 white dib bg-green mt3' onClick={this.onRegisterSubmit}>Submit</button></div>
        </div>
+         <div><p className='f3'>{this.state.message}</p></div>
          <footer>©2019 Banktrack</footer>
        </div>
     )

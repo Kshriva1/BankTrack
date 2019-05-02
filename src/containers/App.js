@@ -74,7 +74,7 @@ class App extends Component {
        <Particles className="particles" params={particleOptions} />
        <Navigation onRouteChange={this.onRouteChange} Route={this.state.route} />
        <Intro Route={this.state.route} />
-       <BankForm Route={this.state.route} onButtonSubmit={this.onButtonSubmit} lat={this.state.lat} lng={this.state.lng} />
+       <BankForm Route={this.state.route} onButtonSubmit={this.onButtonSubmit} />
       </div>
     );
   }

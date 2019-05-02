@@ -14,8 +14,8 @@ let googleMapsClient = GoogleMapsClient.createClient({
 
 class BankForm extends React.Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state= {
       showingInfoWindow: false,  
       activeMarker: {},          
@@ -29,9 +29,28 @@ class BankForm extends React.Component {
       registerPhoneNumberChange: '',
       registerBankCodeChange: '',
       message: "Enter the information to register the Bank",    
-      lat : 0.00,
-      lng : 0.00
+      lat : false,
+      lng : false
     }
+  }
+
+  componentWillReceiveProps() {
+
+    this.setState({
+      showingInfoWindow: false,  
+      activeMarker: {},
+      lat: false,
+      lng: false,
+      bankNameChange: '',
+      bankBranchChange: '',
+      registerBankNameChange: '',
+      registerBankAddressChange: '',
+      registerBankBranchChange: '',
+      registerOpeningHoursChange: '',
+      registerPhoneNumberChange: '',
+      registerBankCodeChange: '',
+      message: "Enter the information to register the Bank"
+    })
   }
 
    onMarkerClick = (props, marker, e) =>
@@ -118,10 +137,10 @@ class BankForm extends React.Component {
      })
      .then(response => response.json())
      .then(data => {
-           if(data) {
+           if(data.bank_address) {
      
     googleMapsClient.geocode({
-     address: data
+     address: data.bank_address
       }, function(err, response) {
       if(!err) {
        getCoordinates(response);
@@ -142,7 +161,8 @@ class BankForm extends React.Component {
   console.log("data not obtained")
  }
 })
-    
+  .catch(err => console.log(err))   
+  
   }
 
 
@@ -164,20 +184,25 @@ class BankForm extends React.Component {
       if(bankData) {
              
           this.setState({message: "The Bank has been successfully registered"})   
+      } else {
+
+        this.setState({message: "Cannot register the bank. Check your information."})
       }
 
   })
+     .catch(err => console.log(err))
  }
 
 
   render() {
+  console.log(this.state.lat, this.state.lng);  
   if(this.props.Route === 'user') {
   return(
     <div>
 <div className='shadow-5 br3 pa4 form center w-60'>
 
-<div className='center'><b className='ph2 dark-green pr1 ma2'>Bank Name</b><input className='f4 pa2 w-25 pv2 mv1 ml2' onChange={this.onBankNameChange} input='text' /></div>
-<div className='pv2'><b className='ph2 dark-green pr1 ma2 '>Bank Branch</b><input className='f4 pa2 w-25 pv2 mv2' onChange={this.onBankBranchChange} input='text' /></div>
+<div className='center'><b className='ph2 dark-green pr1 ma2'>Bank Name</b><input className='f4 pa2 w-25 pv2 mv1 ml2' value={this.state.bankNameChange} onChange={this.onBankNameChange} input='text' /></div>
+<div className='pv2'><b className='ph2 dark-green pr1 ma2 '>Bank Branch</b><input className='f4 pa2 w-25 pv2 mv2' value={this.state.bankBranchChange} onChange={this.onBankBranchChange} input='text' /></div>
 <div><button className='pa3 f4 w-30 link grow ph3 pv2 white dib bg-green' onClick={this.onButtonSubmit}>Find Location</button></div>
 
 </div>
@@ -222,12 +247,12 @@ class BankForm extends React.Component {
        <div>
        <div className='shadow-5 br3 pa4 form center w-60 mb3'>
 
-           <div className='center'><b className='ph2 dark-green pr1 ma2'>Bank Name</b><input className='f4 pa2 w-25 pv2 mv1 ml3' input='text' onChange={this.onRegisterBankNameChange} /></div>
-           <div className='pv2'><b className='ph2 dark-green pr1 ma2 '>Bank Address</b><input className='f4 pa2 w-25 pv2 mt3' input='text' onChange={this.onRegisterBankAddressChange}/></div>
-           <div className='center pv2'><b className='ph2 dark-green pr1 ma2'>Bank Branch</b><input className='f4 pa2 w-25 pv2 mt3 ml2' input='text' onChange={this.onRegisterBankBranchChange}/></div>
-           <div className='center pv2'><b className='ph2 dark-green pr1'>Opening hours</b><input className='f4 pa2 w-25 pv2 mt3 ml2' input='text' onChange={this.onRegisterOpeningHoursChange}/></div>
-           <div className='center pv2'><b className='ph2 dark-green pr1'>Phone Number</b><input className='f4 pa2 w-25 pv2 mt3 ml2' input='tel' onChange={this.onRegisterPhoneNumberChange}/></div>
-           <div className='center pv2'><b className='ph2 dark-green pr1 ml2'>Bank Code</b><input className='f4 pa2 w-25 pv2 mt3 ml4' input='number' onChange={this.onRegisterBankCodeChange}/></div>
+           <div className='center'><b className='ph2 dark-green pr1 ma2'>Bank Name</b><input className='f4 pa2 w-25 pv2 mv1 ml3' input='text' value={this.state.registerBankNameChange} onChange={this.onRegisterBankNameChange} /></div>
+           <div className='pv2'><b className='ph2 dark-green pr1 ma2 '>Bank Address</b><input className='f4 pa2 w-25 pv2 mt3' input='text' value={this.state.registerBankAddressChange} onChange={this.onRegisterBankAddressChange}/></div>
+           <div className='center pv2'><b className='ph2 dark-green pr1 ma2'>Bank Branch</b><input className='f4 pa2 w-25 pv2 mt3 ml2' input='text' value={this.state.registerBankBranchChange} onChange={this.onRegisterBankBranchChange}/></div>
+           <div className='center pv2'><b className='ph2 dark-green pr1'>Opening hours</b><input className='f4 pa2 w-25 pv2 mt3 ml2' input='text' value={this.state.registerOpeningHoursChange} onChange={this.onRegisterOpeningHoursChange}/></div>
+           <div className='center pv2'><b className='ph2 dark-green pr1'>Phone Number</b><input className='f4 pa2 w-25 pv2 mt3 ml2' input='tel' value={this.state.registerPhoneNumberChange} onChange={this.onRegisterPhoneNumberChange}/></div>
+           <div className='center pv2'><b className='ph2 dark-green pr1 ml2'>Bank Code</b><input className='f4 pa2 w-25 pv2 mt3 ml4' input='number' value={this.state.registerBankCodeChange} onChange={this.onRegisterBankCodeChange}/></div>
            <div><button className='pa3 f4 w-30 link grow ph3 pv2 white dib bg-green mt3' onClick={this.onRegisterSubmit}>Submit</button></div>
        </div>
          <div><p className='f3'>{this.state.message}</p></div>

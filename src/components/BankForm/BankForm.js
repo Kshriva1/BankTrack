@@ -183,8 +183,7 @@ class BankForm extends React.Component {
      })
      .then(response => response.json())
      .then(bankData => {
-      if(bankData[0].bank_address) {
-          console.log(bankData.bank_address);   
+      if(bankData[0].bank_address) {  
           this.setState({message: "The Bank has been successfully registered"})   
       } else {
         this.setState({message: "Cannot register the bank. Check your information."})

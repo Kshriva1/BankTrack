@@ -53,6 +53,8 @@ class BankForm extends React.Component {
     })
   }
 
+  
+
    onMarkerClick = (props, marker, e) =>
     this.setState({
       selectedPlace: props,
@@ -127,7 +129,7 @@ class BankForm extends React.Component {
     }
 
     onButtonSubmit = () => {
-     fetch('http://localhost:3001/map_display', {
+     fetch('https://calm-lake-20375.herokuapp.com/map_display', {
       method: 'post',
       headers: {'Content-Type' : 'application/json'},
       body: JSON.stringify({
@@ -167,7 +169,7 @@ class BankForm extends React.Component {
 
 
   onRegisterSubmit = () => {
-    fetch('http://localhost:3001/bank_register', {
+    fetch('https://calm-lake-20375.herokuapp.com/bank_register', {
       method: 'post',
       headers: {'Content-Type' : 'application/json'},
       body: JSON.stringify({
@@ -181,11 +183,10 @@ class BankForm extends React.Component {
      })
      .then(response => response.json())
      .then(bankData => {
-      if(bankData) {
-             
+      if(bankData[0].bank_address) {
+          console.log(bankData.bank_address);   
           this.setState({message: "The Bank has been successfully registered"})   
       } else {
-
         this.setState({message: "Cannot register the bank. Check your information."})
       }
 
@@ -195,7 +196,7 @@ class BankForm extends React.Component {
 
 
   render() {
-  console.log(this.state.lat, this.state.lng);  
+
   if(this.props.Route === 'user') {
   return(
     <div>

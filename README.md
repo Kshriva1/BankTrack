@@ -8,4 +8,4 @@ Click on BANK in the navigation part to go to bank registration form and click o
 
 This application can only track the location of the banks which have been registered by the bankers.
 
-The appication can be viewed here
+The appication can be viewed (here)[https://banktrack.herokuapp.com/].
